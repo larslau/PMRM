@@ -40,7 +40,7 @@ dat <- simulate_trial(n_arm = 500,
 ########################
 
 #
-# MMRM model
+# MMRM/cLDA model
 #
 
 mmrm <- gls(model = y ~ 0 + act_vis,
@@ -53,6 +53,37 @@ mmrm <- gls(model = y ~ 0 + act_vis,
 contrast(mmrm,
          a = list('act_vis' = 'act.36'),
          b = list('act_vis' = 'pbo.36'))
+
+# #
+# # Alternative MMRM/cLDA model with lme4 (faster for larger datasets)
+# #
+# 
+# library(lme4)
+# 
+# mmrm_alt <- lmer(y ~ act_vis + 0 + (as.factor(visit) + 0 | id),
+#              data = dat,
+#              control = lmerControl(check.nobs.vs.nRE = 'ignore',
+#                                    optimizer = 'optimx',
+#                                    optCtrl = list(method = 'L-BFGS-B')))
+# 
+# # NOTE: lmer is overparametrized with a residual error term which
+# # will likely give a warning about convergence that can safely be ignored
+# #
+# # However, some things are important to consider:
+# #
+# # * The model believes it has +1 variance parameter
+# #   than what it effectively does and calculations that 
+# #   rely on this (e.g. AIC, BIC, certain test statistics)
+# #   should be computed or adjusted manually
+# # * The residual variance parameter and the random effect
+# #   variance-covariance matrix should never be interpreted 
+# #   on their own, but once their combined effects have been
+# #   added together
+# 
+# # Compare
+# rbind(coef(mmrm), 
+#       fixef(mmrm_alt))
+
 
 #
 # Proportional decline PMRM
