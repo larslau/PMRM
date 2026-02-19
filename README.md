@@ -1,3 +1,24 @@
+# ⚠️ IMPORTANT: This package has been superseded
+
+**This repository is no longer under active development.**  
+The functionality has been **fully replaced by the newer, more efficient, and actively maintained package `pmrm`.**
+
+👉 **Please use `pmrm` instead of `PMRM` for all new work.**
+
+## 📦 New package: pmrm ✅
+
+- **GitHub:** https://github.com/openpharma/pmrm  
+- **CRAN:** Available on CRAN under the name **`pmrm`**
+
+### Installation
+
+Install the released version directly from CRAN:
+
+```r
+install.packages("pmrm")
+````
+
+
 # Progression Models for Repeated Measures
 
 This repository contains code for fitting some of the models described in 
